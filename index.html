@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Zahera Living · Cuánto cuesta arrendar en Maicao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@500;600;700;800&display=swap"/>
+<link rel="stylesheet" href="zahera.css?v=1"/>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Zahera Living · Avisos de arriendo en Maicao</p>
+      <h1>¿Cuánto necesitas para <em>entrar</em> a arrendar?</h1>
+      <p class="lead">Leímos 24 avisos entre el 18 y el 29 de agosto de 2026. Elige el tipo de vivienda y el barrio, y te mostramos cuánto piden y cuánto hay que tener para entrar.</p>
+      <span class="estado" id="estado" role="status">Cargando datos…</span>
+      <div class="acciones">
+        <a class="btn primario" href="#precios">Ver precios</a>
+        <a class="btn" href="#tabla">Ver los avisos</a>
+      </div>
+    </div>
+
+    <section class="calc" id="calculadora" aria-labelledby="t-calc">
+      <h2 id="t-calc">Calcula tu entrada</h2>
+      <p class="nota">Para entrar se paga el canon y el depósito: <strong>canon × (1 + meses de depósito)</strong>.</p>
+      <div class="calc-controles">
+        <label>Tipo
+          <select id="c-tipo"></select>
+        </label>
+        <label>Barrio
+          <select id="c-barrio"></select>
+        </label>
+        <label>Tengo para entrar
+          <input type="number" id="c-presupuesto" min="0" step="50000" inputmode="numeric" placeholder="Ej. 1500000"/>
+        </label>
+      </div>
+      <div class="resultado" aria-live="polite">
+        <div><div class="lbl">Canon típico (mediana)</div><div class="val" id="r-canon">–</div></div>
+        <div><div class="lbl">Para entrar (mediana)</div><div class="val acento" id="r-entrar">–</div></div>
+        <div><div class="lbl">Avisos con precio</div><div class="val" id="r-n">–</div></div>
+      </div>
+      <p class="small muted" id="r-rango" style="margin:10px 0 0"></p>
+      <div class="presupuesto" id="presupuesto" hidden>
+        <h3 id="p-titulo"></h3>
+        <ul class="lista" id="p-lista"></ul>
+      </div>
+    </section>
+  </div>
+</header>
+
+<div class="nav-pegada">
+  <nav class="nav wrap" aria-label="Secciones">
+    <a href="#precios">Precios</a>
+    <a href="#barrios">Barrios</a>
+    <a href="#casas">Casas</a>
+    <a href="#tabla">Avisos</a>
+    <a href="#metodo">Método</a>
+  </nav>
+</div>
+
+<main class="wrap">
+
+  <section class="bloque" id="precios" aria-labelledby="t-precios">
+    <div class="encabezado">
+      <h2 id="t-precios">Cuánto piden por tipo</h2>
+      <p>Cada barra va del aviso más barato al más caro. El punto naranja es el precio típico.</p>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="panel" style="margin-top:16px">
+      <div class="scroll" id="grafico-tipos"></div>
+      <div class="leyenda sans">
+        <span><i class="sw" style="background:var(--sea)"></i>Rango de precios</span>
+        <span><i class="sw" style="background:var(--accent);border-radius:50%"></i>Precio típico (mediana)</span>
+      </div>
+      <p class="texto" id="texto-tipos" style="margin:14px 0 0"></p>
+    </div>
+  </section>
+
+  <section class="bloque" id="barrios" aria-labelledby="t-barrios">
+    <div class="encabezado">
+      <h2 id="t-barrios">Barrios</h2>
+      <p>Cuántos avisos hubo por barrio y cuánto piden. Con pocos avisos, lee el precio como una pista.</p>
+    </div>
+    <div class="tabla-wrap" id="tabla-barrios"></div>
+  </section>
+
+  <section class="bloque" id="casas" aria-labelledby="t-casas">
+    <div class="encabezado">
+      <h2 id="t-casas">Casas por cuartos</h2>
+      <p>El precio de una casa cambia mucho según cuántos cuartos tenga.</p>
+    </div>
+    <div class="tabla-wrap" id="tabla-casas"></div>
+    <div class="aviso" id="aviso-casas"></div>
+  </section>
+
+  <section class="bloque" id="tabla" aria-labelledby="t-tabla">
+    <div class="encabezado">
+      <h2 id="t-tabla">Todos los avisos</h2>
+      <p>Filtra por tipo y barrio. Puedes descargar lo que ves.</p>
+    </div>
+    <div class="campo-filtros" style="display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-bottom:14px">
+      <label class="campo" style="min-width:170px">Tipo
+        <select id="f-tipo"></select>
+      </label>
+      <label class="campo" style="min-width:170px">Barrio
+        <select id="f-barrio"></select>
+      </label>
+      <button class="btn pequeno" type="button" id="btn-csv">Descargar CSV</button>
+      <span class="muted small" id="cuenta" style="align-self:center"></span>
+    </div>
+    <div class="tabla-wrap">
+      <table class="tabla">
+        <thead><tr><th>Fecha</th><th>Barrio</th><th>Tipo</th><th class="n">Cuartos</th><th class="n">Canon</th><th class="n">Meses de depósito</th><th class="n">Para entrar</th><th>Fuente</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bloque" id="metodo" aria-labelledby="t-metodo">
+    <div class="encabezado">
+      <h2 id="t-metodo">Qué dice y qué no dice</h2>
+    </div>
+    <div class="panel">
+      <ul class="limites" style="padding-left:20px;margin:0">
+        <li>Son 24 avisos vistos en un mes. No es el censo del municipio ni un dato de una inmobiliaria.</li>
+        <li>Los 7 avisos sin precio los contó un conocido. No se usan para calcular precios.</li>
+        <li>Los avisos dicen qué se ofrece, no qué se arrienda: no miden la demanda.</li>
+        <li>Con pocos avisos por barrio o por cuartos, el precio es una pista, no una tarifa.</li>
+        <li>Antes de pagar un depósito, pregunta cuánto es, por qué y si quedará por escrito. Esto no es asesoría legal.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="pie">Zahera Living · Datos del registro de avisos. Los teléfonos de los avisos no se publican.</footer>
+</main>
+
+<script src="config.js?v=1"></script>
+<script src="datos_base.js?v=1"></script>
+<script src="zahera.js?v=1"></script>
+<script>
+(function () {
+  "use strict";
+  var ZH = window.ZH, $ = function (id) { return document.getElementById(id); };
+  var datos = [], fuente = "respaldo", motivo = "";
+
+  function opciones(sel, lista, primera) {
+    sel.innerHTML = "";
+    [primera].concat(lista).forEach(function (v) {
+      var o = document.createElement("option"); o.value = v; o.textContent = v; sel.appendChild(o);
+    });
+  }
+  function barriosDe(rows) { return ZH.unicos(rows.map(function (r) { return r.barrio; })).sort(); }
+
+  function pintarEstado() {
+    var el = $("estado");
+    el.textContent = fuente === "vivo" ? "Datos en vivo del registro" : "Datos de respaldo" + (motivo ? " · " + motivo : "");
+  }
+
+  /* Calculadora */
+  function calcular() {
+    var f = { tipo: $("c-tipo").value, barrio: $("c-barrio").value };
+    var rs = ZH.filtrar(datos, f);
+    var conPrecio = rs.filter(function (r) { return r.canon != null; });
+    var canones = conPrecio.map(function (r) { return r.canon; });
+    var entrar = conPrecio.filter(function (r) { return r.paraEntrar != null; }).map(function (r) { return r.paraEntrar; });
+    $("r-canon").textContent = canones.length ? ZH.pesos(ZH.mediana(canones)) : "–";
+    $("r-entrar").textContent = entrar.length ? ZH.pesos(ZH.mediana(entrar)) : "–";
+    $("r-n").textContent = String(conPrecio.length);
+    $("r-rango").textContent = canones.length
+      ? "Va de " + ZH.pesos(Math.min.apply(null, canones)) + " a " + ZH.pesos(Math.max.apply(null, canones)) + " de canon. " +
+        (canones.length < 5 ? "Son pocos avisos: úsalo como orientación." : "")
+      : "No hay avisos con precio para esta combinación. Prueba con otro tipo o barrio.";
+
+    var presup = Number($("c-presupuesto").value);
+    var box = $("presupuesto");
+    if (!$("c-presupuesto").value || isNaN(presup) || presup <= 0) { box.hidden = true; return; }
+    var caben = ZH.cabenEnPresupuesto(rs, presup);
+    box.hidden = false;
+    $("p-titulo").textContent = caben.length
+      ? caben.length + (caben.length === 1 ? " aviso cabe" : " avisos caben") + " en " + ZH.pesos(presup) + " para entrar"
+      : "Con " + ZH.pesos(presup) + " no alcanza para ningún aviso de esta búsqueda";
+    $("p-lista").innerHTML = caben.slice(0, 5).map(function (r) {
+      return "<li><span>" + ZH.esc(r.tipo) + " · " + ZH.esc(r.barrio) + " · " + r.habitaciones + (r.habitaciones === 1 ? " cuarto" : " cuartos") +
+        "</span><span>" + ZH.pesos(r.paraEntrar) + "</span></li>";
+    }).join("");
+  }
+
+  /* Panel */
+  function pintarPanel() {
+    var r = ZH.resumen(datos);
+    $("kpis").innerHTML =
+      '<div class="kpi"><div class="lbl">Avisos leídos</div><div class="val">' + r.total + '</div><div class="det">18 al 29 de agosto de 2026</div></div>' +
+      '<div class="kpi acento"><div class="lbl">Con precio escrito</div><div class="val">' + r.conPrecio + '</div><div class="det">Los que sirven para calcular</div></div>' +
+      '<div class="kpi"><div class="lbl">Sin precio</div><div class="val">' + r.sinPrecio + '</div><div class="det">"Se pregunta" en el aviso</div></div>' +
+      '<div class="kpi"><div class="lbl">Barrios</div><div class="val">' + r.barrios + '</div><div class="det">Con al menos un aviso</div></div>';
+
+    var tipos = ZH.porTipo(datos);
+    $("grafico-tipos").innerHTML = ZH.rangos(tipos, "Rango de precios por tipo de vivienda");
+    var conDatos = tipos.filter(function (t) { return t.n > 0; });
+    var txt = conDatos.map(function (t) {
+      return "<strong>" + t.tipo + "</strong>: entre " + ZH.pesos(t.min) + " y " + ZH.pesos(t.max) + " (" + t.n + (t.n === 1 ? " aviso" : " avisos") + ")";
+    }).join(". ");
+    $("texto-tipos").innerHTML = txt ? txt + ". El precio típico de cada tipo es la mediana: la mitad de los avisos está por debajo y la mitad por encima." : "";
+
+    var bs = ZH.porBarrio(datos);
+    $("tabla-barrios").innerHTML = '<table class="tabla"><thead><tr><th>Barrio</th><th class="n">Avisos</th><th class="n">Con precio</th><th class="n">Precio típico</th><th class="n">Desde</th><th class="n">Hasta</th></tr></thead><tbody>' +
+      bs.map(function (b) {
+        return "<tr><td>" + ZH.esc(b.barrio) + '</td><td class="n">' + b.total + '</td><td class="n">' + b.n + '</td><td class="n">' + ZH.pesos(b.mediana) +
+          '</td><td class="n">' + ZH.pesos(b.min) + '</td><td class="n">' + ZH.pesos(b.max) + "</td></tr>";
+      }).join("") + "</tbody></table>";
+
+    var cs = ZH.casasPorCuartos(datos);
+    $("tabla-casas").innerHTML = cs.length
+      ? '<table class="tabla"><thead><tr><th>Cuartos</th><th class="n">Avisos con precio</th><th class="n">Precio típico</th><th class="n">Desde</th><th class="n">Hasta</th></tr></thead><tbody>' +
+        cs.map(function (c) {
+          return '<tr><td>' + c.cuartos + '</td><td class="n">' + c.n + '</td><td class="n">' + ZH.pesos(c.mediana) + '</td><td class="n">' + ZH.pesos(c.min) + '</td><td class="n">' + ZH.pesos(c.max) + "</td></tr>";
+        }).join("") + "</tbody></table>"
+      : '<p class="muted" style="padding:14px">No hay casas con precio.</p>';
+    $("aviso-casas").innerHTML = "Las casas de 2, 3 y 4 cuartos tienen pocos avisos cada una. Sirven para ver el orden de precios, no para fijar una tarifa.";
+  }
+
+  function pintarTabla() {
+    var f = { tipo: $("f-tipo").value, barrio: $("f-barrio").value };
+    var rs = ZH.filtrar(datos, f);
+    $("tbody").innerHTML = ZH.tablaHtml(rs);
+    $("cuenta").textContent = rs.length + (rs.length === 1 ? " aviso" : " avisos");
+    tablaActual = rs;
+  }
+  var tablaActual = [];
+
+  function pintarTodo() {
+    pintarPanel();
+    pintarTabla();
+    calcular();
+  }
+
+  /* Arranque */
+  opciones($("c-tipo"), ZH.TIPOS, "Todos");
+  opciones($("f-tipo"), ZH.TIPOS, "Todos");
+  ["c-barrio", "f-barrio"].forEach(function (id) { opciones($(id), [], "Todos"); });
+
+  $("c-tipo").addEventListener("change", calcular);
+  $("c-barrio").addEventListener("change", calcular);
+  $("c-presupuesto").addEventListener("input", calcular);
+  $("f-tipo").addEventListener("change", pintarTabla);
+  $("f-barrio").addEventListener("change", pintarTabla);
+  $("btn-csv").addEventListener("click", function () { ZH.descargar("zahera-avisos.csv", ZH.csv(tablaActual)); });
+
+  function marcarNav() {
+    var h = location.hash || "#precios";
+    document.querySelectorAll(".nav a").forEach(function (a) {
+      a.setAttribute("aria-current", a.getAttribute("href") === h ? "true" : "false");
+    });
+  }
+  window.addEventListener("hashchange", marcarNav);
+  marcarNav();
+
+  ZH.cargar().then(function (r) {
+    datos = r.datos || [];
+    fuente = r.fuente; motivo = r.motivo || "";
+    pintarEstado();
+    var barrios = barriosDe(datos);
+    opciones($("c-barrio"), barrios, "Todos");
+    opciones($("f-barrio"), barrios, "Todos");
+    pintarTodo();
+  });
+})();
+</script>
+</body>
+</html>

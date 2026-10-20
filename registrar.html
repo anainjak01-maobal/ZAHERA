@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Zahera Living · Registro de avisos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@500;600;700;800&display=swap"/>
+<link rel="stylesheet" href="zahera.css?v=1"/>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <p class="kicker">Zahera Living · Solo para el equipo</p>
+      <h1>Registrar avisos</h1>
+      <p class="lead">Anota cada aviso que leas. Si el aviso no trae precio, deja el canon vacío: el panel lo contará como "se pregunta".</p>
+      <div class="acciones">
+        <a class="btn" href="index.html">Volver al sitio</a>
+        <a class="btn" href="#lista">Ver los avisos</a>
+        <a class="btn" href="#" id="salir">Salir</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Acceso: solo se muestra hasta que la clave sea correcta -->
+  <section class="bloque" id="acceso" hidden>
+    <div class="panel" style="max-width:520px;margin-top:36px">
+      <h2 style="font-size:24px">Entrar al registro</h2>
+      <p class="muted small">Escribe la clave del equipo. La página la pide cada vez que se abre.</p>
+      <form id="acc-form" class="formulario" style="grid-template-columns:1fr" autocomplete="off">
+        <label class="campo">Clave del equipo
+          <input type="password" id="clave" required/>
+        </label>
+        <div class="acciones">
+          <button class="btn primario" type="submit" id="acc-btn">Entrar</button>
+          <span class="msg" id="acc-msg" role="alert"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <div id="contenido" hidden>
+
+    <section class="bloque" id="formulario" aria-labelledby="t-form">
+      <div class="encabezado">
+        <h2 id="t-form">Nuevo aviso</h2>
+        <p id="modo-form">Nuevo registro</p>
+      </div>
+      <div class="panel">
+        <form id="form" class="formulario" autocomplete="off" novalidate>
+          <input type="hidden" id="id"/>
+          <label class="campo">Fecha del aviso
+            <input type="date" id="fecha" required/>
+          </label>
+          <label class="campo">Barrio
+            <input type="text" id="barrio" list="barrios" maxlength="40" required/>
+            <datalist id="barrios"></datalist>
+          </label>
+          <label class="campo">Tipo
+            <select id="tipo">
+              <option>Pieza</option><option>Apartamento</option><option>Casa</option>
+            </select>
+          </label>
+          <label class="campo">Cuartos
+            <input type="number" id="habitaciones" min="1" max="6" step="1" inputmode="numeric" required/>
+          </label>
+          <label class="campo">Canon mensual
+            <input type="number" id="canon" min="50000" max="20000000" step="1000" inputmode="numeric" placeholder="Vacío si se pregunta"/>
+          </label>
+          <label class="campo">Meses de depósito
+            <input type="number" id="meses" min="0" max="6" step="1" inputmode="numeric" placeholder="Solo si hay canon"/>
+          </label>
+          <label class="campo">Fuente
+            <select id="fuente">
+              <option>Aviso pegado</option><option>Facebook</option><option>Lo contó un conocido</option><option>Otra</option>
+            </select>
+          </label>
+          <div class="acciones">
+            <button class="btn primario" type="submit" id="guardar">Guardar aviso</button>
+            <button class="btn" type="button" id="cancelar" hidden>Cancelar edición</button>
+            <span class="msg" id="msg" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="bloque" id="lista" aria-labelledby="t-lista">
+      <div class="encabezado">
+        <h2 id="t-lista">Avisos guardados</h2>
+        <p id="cuenta">Cargando…</p>
+      </div>
+      <div class="tabla-wrap">
+        <table class="tabla">
+          <thead><tr><th>Fecha</th><th>Barrio</th><th>Tipo</th><th class="n">Cuartos</th><th class="n">Canon</th><th class="n">Meses</th><th class="n">Para entrar</th><th>Fuente</th><th><span class="sr">Acciones</span></th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="pie">Esta página guarda en la hoja de Google del proyecto. No guardes teléfonos ni datos de contacto de quien publica el aviso.</footer>
+</main>
+
+<script src="config.js?v=1"></script>
+<script src="datos_base.js?v=1"></script>
+<script src="zahera.js?v=1"></script>
+<script>
+(function () {
+  "use strict";
+  var ZH = window.ZH, $ = function (id) { return document.getElementById(id); };
+  var clave = "", datos = [], enEdicion = null;
+
+  function mostrar(acceso) {
+    $("acceso").hidden = !acceso;
+    $("contenido").hidden = acceso;
+  }
+  function msg(texto, tipo) {
+    var el = $("msg");
+    el.textContent = texto;
+    el.style.color = tipo === "error" ? "var(--accent-ink)" : tipo === "ok" ? "var(--sea)" : "var(--ink2)";
+  }
+
+  /* Acceso: la clave no se guarda en el navegador. */
+  function verificar(c) {
+    $("acc-btn").disabled = true; $("acc-msg").textContent = "Revisando la clave…";
+    return ZH.enviar("verificar", {}, c).then(function (r) {
+      $("acc-btn").disabled = false;
+      if (r && r.ok) {
+        clave = c; $("acc-msg").textContent = "";
+        mostrar(false); cargarLista();
+      } else {
+        $("acc-msg").textContent = (r && r.error) || "La clave no es correcta.";
+      }
+    });
+  }
+  $("acc-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var c = $("clave").value.trim();
+    if (!c) { $("acc-msg").textContent = "Escribe la clave."; return; }
+    verificar(c);
+  });
+  $("salir").addEventListener("click", function (e) {
+    e.preventDefault(); clave = ""; $("clave").value = ""; mostrar(true);
+  });
+
+  /* Lista */
+  function cargarLista() {
+    $("cuenta").textContent = "Cargando…";
+    ZH.enviar("listar", {}, clave).then(function (r) {
+      if (!r.ok) { $("cuenta").textContent = r.error || "No pude cargar los avisos."; return; }
+      datos = r.datos.slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : -1; });
+      $("cuenta").textContent = datos.length + " avisos";
+      var bs = ZH.unicos(datos.map(function (x) { return x.barrio; })).sort();
+      $("barrios").innerHTML = bs.map(function (b) { return '<option value="' + ZH.esc(b) + '">'; }).join("");
+      pintarLista();
+    });
+  }
+  function pintarLista() {
+    var tb = $("tbody"); tb.innerHTML = "";
+    if (!datos.length) {
+      tb.innerHTML = '<tr><td colspan="9" class="muted">Todavía no hay avisos. Usa el formulario de arriba para anotar el primero.</td></tr>';
+      return;
+    }
+    datos.forEach(function (r) {
+      var tr = document.createElement("tr");
+      var celdas = [ZH.fechaLarga(r.fecha), r.barrio, r.tipo, String(r.habitaciones),
+        r.canon == null ? "Se pregunta" : ZH.pesos(r.canon), r.meses == null ? "–" : String(r.meses),
+        ZH.pesos(r.paraEntrar), r.fuente];
+      celdas.forEach(function (c, i) {
+        var td = document.createElement("td");
+        if (i === 3 || i === 4 || i === 5 || i === 6) td.className = "n";
+        td.textContent = c;
+        tr.appendChild(td);
+      });
+      var td = document.createElement("td");
+      td.style.whiteSpace = "nowrap";
+      var ed = document.createElement("button");
+      ed.type = "button"; ed.className = "btn pequeno"; ed.textContent = "Editar";
+      ed.addEventListener("click", function () { cargarEnFormulario(r); });
+      var bo = document.createElement("button");
+      bo.type = "button"; bo.className = "btn pequeno peligro"; bo.textContent = "Borrar";
+      bo.addEventListener("click", function () { confirmarBorrado(bo, r); });
+      td.appendChild(ed); td.appendChild(document.createTextNode(" ")); td.appendChild(bo);
+      tr.appendChild(td);
+      tb.appendChild(tr);
+    });
+  }
+  function confirmarBorrado(boton, r) {
+    if (boton.dataset.listo !== "1") {
+      boton.dataset.listo = "1"; boton.textContent = "¿Seguro?";
+      setTimeout(function () { boton.dataset.listo = ""; boton.textContent = "Borrar"; }, 4000);
+      return;
+    }
+    boton.disabled = true; boton.textContent = "Borrando…";
+    ZH.enviar("borrar", { id: r.id }, clave).then(function (res) {
+      if (res.ok) { msg("Aviso borrado.", "ok"); cargarLista(); }
+      else { msg(res.error || "No se pudo borrar.", "error"); boton.disabled = false; boton.textContent = "Borrar"; }
+    });
+  }
+
+  /* Formulario */
+  function cargarEnFormulario(r) {
+    enEdicion = r;
+    $("id").value = r.id; $("fecha").value = r.fecha; $("barrio").value = r.barrio;
+    $("tipo").value = r.tipo; $("habitaciones").value = r.habitaciones;
+    $("canon").value = r.canon == null ? "" : r.canon;
+    $("meses").value = r.meses == null ? "" : r.meses;
+    $("fuente").value = r.fuente;
+    $("modo-form").textContent = "Editando " + r.id + " · " + r.barrio + " · " + r.tipo;
+    $("cancelar").hidden = false; $("guardar").textContent = "Guardar cambios";
+    msg("", "");
+    location.hash = "#formulario";
+  }
+  function limpiarFormulario() {
+    enEdicion = null;
+    $("form").reset(); $("id").value = "";
+    $("modo-form").textContent = "Nuevo registro";
+    $("cancelar").hidden = true; $("guardar").textContent = "Guardar aviso";
+  }
+  $("cancelar").addEventListener("click", function () { limpiarFormulario(); msg("", ""); });
+
+  function validarLocal() {
+    if (!$("fecha").value) return "Elige la fecha del aviso.";
+    if (!$("barrio").value.trim()) return "Escribe el barrio.";
+    var h = $("habitaciones").value;
+    if (h === "" || Number(h) < 1 || Number(h) > 6 || Math.floor(Number(h)) !== Number(h)) return "Los cuartos deben ser un número entre 1 y 6.";
+    var c = $("canon").value, m = $("meses").value;
+    if (c !== "" && (m === "" || Number(m) < 0 || Number(m) > 6)) return "Si hay canon, escribe los meses de depósito (0 si no piden).";
+    return "";
+  }
+  $("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var err = validarLocal();
+    if (err) { msg(err, "error"); return; }
+    var payload = {
+      fecha: $("fecha").value, barrio: $("barrio").value.trim(), tipo: $("tipo").value,
+      habitaciones: Number($("habitaciones").value),
+      canon: $("canon").value === "" ? "" : Number($("canon").value),
+      meses: $("meses").value === "" ? "" : Number($("meses").value),
+      fuente: $("fuente").value
+    };
+    var editando = !!enEdicion;
+    if (editando) payload.id = $("id").value;
+    $("guardar").disabled = true; msg("Guardando…", "");
+    ZH.enviar(editando ? "actualizar" : "registrar", payload, clave).then(function (r) {
+      $("guardar").disabled = false;
+      if (r.ok) {
+        msg(r.mensaje || "Guardado.", "ok");
+        limpiarFormulario();
+        cargarLista();
+      } else {
+        msg(r.error || "No se pudo guardar.", "error");
+      }
+    });
+  });
+
+  /* Arranque */
+  limpiarFormulario();
+  if (!ZH.CFG.REGISTRO) {
+    mostrar(true);
+    $("acc-msg").textContent = "Falta conectar el registro: pon el enlace /exec en config.js (ver LEEME.txt).";
+  } else {
+    mostrar(true);
+  }
+})();
+</script>
+</body>
+</html>

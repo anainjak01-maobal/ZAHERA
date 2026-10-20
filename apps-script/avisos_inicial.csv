@@ -1,0 +1,25 @@
+ID,Fecha,Barrio,Tipo,Habitaciones,Canon,Meses de depósito,Para entrar,Fuente,Precio escrito,Creado
+A01,18/08/2026,Centro,Pieza,1,380000,1,760000,Aviso pegado,Sí,2026-08-29
+A02,18/08/2026,Centro,Pieza,1,,,,Lo contó un conocido,No,2026-08-29
+A03,19/08/2026,Centro,Apartamento,2,750000,1,1500000,Facebook,Sí,2026-08-29
+A04,19/08/2026,Buenos Aires,Casa,3,1600000,2,4800000,Aviso pegado,Sí,2026-08-29
+A05,20/08/2026,Centro,Casa,3,1200000,1,2400000,Facebook,Sí,2026-08-29
+A06,20/08/2026,El Carmen,Casa,3,,,,Lo contó un conocido,No,2026-08-29
+A07,21/08/2026,Centro,Pieza,1,400000,1,800000,Aviso pegado,Sí,2026-08-29
+A08,21/08/2026,Paraíso,Apartamento,2,820000,1,1640000,Facebook,Sí,2026-08-29
+A09,22/08/2026,Centro,Casa,2,980000,1,1960000,Aviso pegado,Sí,2026-08-29
+A10,22/08/2026,Buenos Aires,Casa,3,,,,Lo contó un conocido,No,2026-08-29
+A11,24/08/2026,El Carmen,Apartamento,2,700000,1,1400000,Facebook,Sí,2026-08-29
+A12,24/08/2026,Centro,Pieza,1,350000,0,350000,Aviso pegado,Sí,2026-08-29
+A13,25/08/2026,Paraíso,Casa,3,1400000,1,2800000,Aviso pegado,Sí,2026-08-29
+A14,25/08/2026,Centro,Apartamento,3,900000,1,1800000,Facebook,Sí,2026-08-29
+A15,26/08/2026,Buenos Aires,Apartamento,2,,,,Lo contó un conocido,No,2026-08-29
+A16,26/08/2026,Centro,Casa,3,1250000,1,2500000,Aviso pegado,Sí,2026-08-29
+A17,27/08/2026,El Carmen,Pieza,1,300000,1,600000,Facebook,Sí,2026-08-29
+A18,27/08/2026,Centro,Apartamento,2,,,,Lo contó un conocido,No,2026-08-29
+A19,28/08/2026,Paraíso,Casa,2,1100000,1,2200000,Aviso pegado,Sí,2026-08-29
+A20,28/08/2026,Buenos Aires,Casa,4,1800000,2,5400000,Facebook,Sí,2026-08-29
+A21,29/08/2026,Centro,Pieza,1,,,,Lo contó un conocido,No,2026-08-29
+A22,29/08/2026,El Carmen,Casa,3,1300000,1,2600000,Aviso pegado,Sí,2026-08-29
+A23,29/08/2026,Centro,Apartamento,2,780000,1,1560000,Facebook,Sí,2026-08-29
+A24,29/08/2026,Paraíso,Pieza,1,,,,Lo contó un conocido,No,2026-08-29

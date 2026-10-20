@@ -1,0 +1,47 @@
+ZAHERA LIVING · Sitio de avisos de arriendo (app web)
+=====================================================
+
+QUÉ HAY EN LA CARPETA
+- index.html ....... Portada con la calculadora "¿Cuánto necesito para entrar?", precios por tipo,
+                     barrios, casas por cuartos, tabla de avisos y método. No pide clave.
+- registrar.html ... Registro del equipo: entrar con clave, agregar, editar y borrar avisos.
+- config.js ........ Único archivo que se edita para conectar con la hoja (paso 3).
+- zahera.js, zahera.css, datos_base.js ... Partes internas. No hay que tocarlas.
+- apps-script/Codigo.gs ........ Script que guarda los avisos en la hoja.
+- apps-script/avisos_inicial.csv  Los 24 avisos de agosto, para cargar la primera vez.
+
+PASO 1. Crear la hoja
+1. Crea una hoja de Google nueva llamada "Zahera Living registro".
+2. Archivo > Importar > Subir > avisos_inicial.csv. En "Ubicación de importación" elige "Reemplazar hoja".
+3. Revisa que la pestaña se llame "Avisos" (si no, renómbrala). Si la cambias, cambia HOJA en Codigo.gs.
+   Elimina cualquier pestaña "Avisos" vacía que haya quedado de antes.
+
+PASO 2. Clave del equipo y script
+1. En la hoja, abre Extensiones > Apps Script. Borra lo que aparezca y pega Codigo.gs.
+2. Cambia  var CLAVE = "cambia-esta-clave";  por una clave que solo conozca el equipo. Guarda (Ctrl+S).
+3. Implementar > Nueva implementación > tipo "Aplicación web":
+   - Ejecutar como: Yo
+   - Quién tiene acceso: Cualquier persona
+   Pulsa Implementar y autoriza el acceso si lo pide.
+4. Copia la dirección que termina en /exec.
+
+PASO 3. Conectar el sitio
+1. Abre config.js y pega la dirección /exec entre las comillas de REGISTRO.
+2. Sube a GitHub, en el repositorio, todos los archivos de la carpeta (reemplazando los anteriores).
+3. Espera un minuto, abre el sitio con Ctrl+F5. Debe decir "Datos en vivo del registro".
+
+CADA VEZ QUE CAMBIES Codigo.gs
+- Implementar > Administrar implementaciones > lápiz > Versión: "Versión nueva" > Implementar.
+- La dirección /exec no cambia, así que config.js no se toca.
+
+PRUEBA RÁPIDA
+- Abre la dirección /exec en el navegador: debe decir "Registro de Zahera Living activo."
+- Abre la misma dirección con ?datos=1 al final: debe mostrar los avisos en texto.
+- Entra a registrar.html con la clave. Agrega un aviso de prueba, míralo en la portada y bórralo.
+
+NOTAS
+- Si el aviso no trae precio, deja el canon vacío. Esos avisos cuentan como "se pregunta" y no entran en los precios.
+- Para entrar se calcula solo: canon × (1 + meses de depósito).
+- No guardes teléfonos ni datos de contacto de quien publica el aviso. La app no los tiene.
+- La clave protege los datos, no es una seguridad fuerte.
+- Si el sitio dice "Datos de respaldo", no conecta con el registro: revisa config.js y la implementación.
