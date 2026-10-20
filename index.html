@@ -20,6 +20,15 @@
 .hero .diapo figcaption { top: auto !important; bottom: 30px !important; left: max(16px, calc(50% - 600px)) !important; max-width: min(520px, calc(100% - 96px)) !important; padding: 0 !important; background: none !important; color: #FFFDF8 !important; font-weight: 600 !important; text-shadow: 0 1px 3px rgba(0,0,0,.75), 0 0 18px rgba(0,0,0,.45) !important; }
 .hero .puntos { top: 16px; right: 16px; }
 </style>
+<style>
+/* Sección de análisis */
+.pasos { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.paso { background: var(--card); border: 1px solid var(--rule); padding: 16px; font-size: 15px; line-height: 1.45; }
+.paso b { display: block; color: var(--accent-ink); font-size: 13px; margin-bottom: 6px; }
+.subtitulo { font-size: 20px; margin: 28px 0 12px; }
+.hallazgos { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.hallazgos .panel b { display: block; font-size: 17px; margin-bottom: 6px; }
+</style>
 </head>
 <body>
 
@@ -89,6 +98,7 @@
 
 <div class="nav-pegada">
   <nav class="nav wrap" aria-label="Secciones">
+    <a href="#analisis">Análisis</a>
     <a href="#precios">Precios</a>
     <a href="#barrios">Barrios</a>
     <a href="#casas">Casas</a>
@@ -98,6 +108,27 @@
 </div>
 
 <main class="wrap">
+
+  <section class="bloque" id="analisis" aria-labelledby="t-analisis">
+    <div class="encabezado">
+      <h2 id="t-analisis">Del aviso a la conclusión</h2>
+      <p>Esta página es el resultado de un proceso de analítica de datos. Estos son los pasos y lo que encontramos en cada uno.</p>
+    </div>
+    <div class="pasos">
+      <div class="paso"><b>1 · Pregunta</b>¿Cuánto hay que tener para entrar a arrendar en Maicao?</div>
+      <div class="paso"><b>2 · Recolección</b>Leímos 24 avisos del 18 al 29 de agosto de 2026 y los anotamos en un formulario conectado a una hoja de cálculo.</div>
+      <div class="paso"><b>3 · Limpieza</b>7 avisos no traían precio. No los inventamos: quedan como "se pregunta" y no entran en los cálculos.</div>
+      <div class="paso"><b>4 · Análisis</b>Mediana y rango por tipo. Para entrar = canon × (1 + meses de depósito).</div>
+      <div class="paso"><b>5 · Límite</b>17 precios, 3 tipos y 4 barrios. Con tan pocos datos, cada cifra es una pista, no una tarifa.</div>
+    </div>
+    <h3 class="subtitulo">Lo que dice el dato</h3>
+    <div class="hallazgos">
+      <div class="panel"><b>Tres tipos, tres precios</b><p class="muted small">Promedio: pieza $357.500 (4 avisos), apartamento $790.000 (5) y casa $1.328.750 (8). Por eso no se promedian juntos.</p></div>
+      <div class="panel"><b>La casa cambia con los cuartos</b><p class="muted small">Con 2 cuartos, promedio $1.040.000 (2 avisos). Con 3, $1.350.000 (5). Con 4, $1.800.000 (1 aviso, no se puede generalizar).</p></div>
+      <div class="panel"><b>El depósito pesa</b><p class="muted small">Un canon de $1.600.000 con 2 meses de depósito pasa a $4.800.000 para entrar. Es un solo aviso: una pista para revisar.</p></div>
+    </div>
+    <p class="muted small" style="margin-top:12px">Lo que no decimos: el promedio de todos los avisos (cerca de $941.800) mezcla piezas y casas. No lo usamos para decidir.</p>
+  </section>
 
   <section class="bloque" id="precios" aria-labelledby="t-precios">
     <div class="encabezado">
