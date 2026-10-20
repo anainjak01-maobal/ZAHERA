@@ -8,5 +8,5 @@ window.ZH_CONFIG = {
 
   /* Dirección de la aplicación web de Apps Script (termina en /exec, ver LEEME.txt).
      Mientras esté vacía, el sitio muestra los datos de respaldo y el registro no funciona. */
-  REGISTRO: ""
+  REGISTRO: "https://script.google.com/macros/s/AKfycbyA772zBDkx5UD9fj6pHO-hrS1wOwFh_tUDZoq3UXMhDhPw8hSxRDXlBdXMxtPU-axY/exec"
 };
