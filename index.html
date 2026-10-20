@@ -9,52 +9,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@500;600;700;800&display=swap"/>
 <link rel="stylesheet" href="zahera.css?v=3"/>
 <style>
-/* Texto del carrusel: sin fondo oscuro, con sombra para que se lea sobre la foto */
-.carrusel .diapo figcaption { background: none !important; padding: 0 !important; top: 22px !important; color: #FFFDF8 !important; font-weight: 600 !important; text-shadow: 0 1px 3px rgba(0,0,0,.75), 0 0 18px rgba(0,0,0,.45) !important; }
+/* Carrusel como fondo del encabezado: fotos detrás del título y la calculadora */
+.hero { position: relative; overflow: hidden; isolation: isolate; background: #1F1D1C; }
+.hero .carrusel { position: absolute !important; inset: 0 !important; height: auto !important; margin: 0 !important; z-index: 0; background: none !important; }
+.hero .carrusel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(31,29,28,.82) 0%, rgba(31,29,28,.6) 45%, rgba(31,29,28,.2) 100%), linear-gradient(0deg, rgba(31,29,28,.6) 0%, rgba(31,29,28,0) 30%); }
+.hero .lead { color: #F6F1EA !important; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.hero .kicker { text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.hero .wrap { position: relative; z-index: 2; }
+.hero .diapo figcaption { top: auto !important; bottom: 30px !important; left: max(16px, calc(50% - 600px)) !important; max-width: min(520px, calc(100% - 96px)) !important; padding: 0 !important; background: none !important; color: #FFFDF8 !important; font-weight: 600 !important; text-shadow: 0 1px 3px rgba(0,0,0,.75), 0 0 18px rgba(0,0,0,.45) !important; }
+.hero .puntos { top: 16px; right: 16px; }
 </style>
 </head>
 <body>
 
 <header class="hero">
-  <div class="wrap">
-    <div>
-      <p class="kicker">Zahera Living · Avisos de arriendo en Maicao</p>
-      <h1>¿Cuánto necesitas para <em>entrar</em> a arrendar?</h1>
-      <p class="lead">Leímos 24 avisos entre el 18 y el 29 de agosto de 2026. Elige el tipo de vivienda y el barrio, y te mostramos cuánto piden y cuánto hay que tener para entrar.</p>
-      <span class="estado" id="estado" role="status">Cargando datos…</span>
-      <div class="acciones">
-        <a class="btn primario" href="#precios">Ver precios</a>
-        <a class="btn" href="#tabla">Ver los avisos</a>
-      </div>
-    </div>
-
-    <section class="calc" id="calculadora" aria-labelledby="t-calc">
-      <h2 id="t-calc">Calcula tu entrada</h2>
-      <p class="nota">Para entrar se paga el canon y el depósito: <strong>canon × (1 + meses de depósito)</strong>.</p>
-      <div class="calc-controles">
-        <label>Tipo
-          <select id="c-tipo"></select>
-        </label>
-        <label>Barrio
-          <select id="c-barrio"></select>
-        </label>
-        <label>Tengo para entrar
-          <input type="number" id="c-presupuesto" min="0" step="50000" inputmode="numeric" placeholder="Ej. 1500000"/>
-        </label>
-      </div>
-      <div class="resultado" aria-live="polite">
-        <div><div class="lbl">Canon típico (mediana)</div><div class="val" id="r-canon">–</div></div>
-        <div><div class="lbl">Para entrar (mediana)</div><div class="val acento" id="r-entrar">–</div></div>
-        <div><div class="lbl">Avisos con precio</div><div class="val" id="r-n">–</div></div>
-      </div>
-      <p class="small muted" id="r-rango" style="margin:10px 0 0"></p>
-      <div class="presupuesto" id="presupuesto" hidden>
-        <h3 id="p-titulo"></h3>
-        <ul class="lista" id="p-lista"></ul>
-      </div>
-    </section>
-  </div>
-</header>
 
 <section class="carrusel" aria-roledescription="carrusel" aria-label="Tipos de vivienda que recorrimos">
   <figure class="diapo activa" aria-hidden="false">
@@ -111,6 +79,46 @@
     <button class="punto" type="button" aria-label="Ver casa" aria-current="false"></button>
   </div>
 </section>
+  <div class="wrap">
+    <div>
+      <p class="kicker">Zahera Living · Avisos de arriendo en Maicao</p>
+      <h1>¿Cuánto necesitas para <em>entrar</em> a arrendar?</h1>
+      <p class="lead">Leímos 24 avisos entre el 18 y el 29 de agosto de 2026. Elige el tipo de vivienda y el barrio, y te mostramos cuánto piden y cuánto hay que tener para entrar.</p>
+      <span class="estado" id="estado" role="status">Cargando datos…</span>
+      <div class="acciones">
+        <a class="btn primario" href="#precios">Ver precios</a>
+        <a class="btn" href="#tabla">Ver los avisos</a>
+      </div>
+    </div>
+
+    <section class="calc" id="calculadora" aria-labelledby="t-calc">
+      <h2 id="t-calc">Calcula tu entrada</h2>
+      <p class="nota">Para entrar se paga el canon y el depósito: <strong>canon × (1 + meses de depósito)</strong>.</p>
+      <div class="calc-controles">
+        <label>Tipo
+          <select id="c-tipo"></select>
+        </label>
+        <label>Barrio
+          <select id="c-barrio"></select>
+        </label>
+        <label>Tengo para entrar
+          <input type="number" id="c-presupuesto" min="0" step="50000" inputmode="numeric" placeholder="Ej. 1500000"/>
+        </label>
+      </div>
+      <div class="resultado" aria-live="polite">
+        <div><div class="lbl">Canon típico (mediana)</div><div class="val" id="r-canon">–</div></div>
+        <div><div class="lbl">Para entrar (mediana)</div><div class="val acento" id="r-entrar">–</div></div>
+        <div><div class="lbl">Avisos con precio</div><div class="val" id="r-n">–</div></div>
+      </div>
+      <p class="small muted" id="r-rango" style="margin:10px 0 0"></p>
+      <div class="presupuesto" id="presupuesto" hidden>
+        <h3 id="p-titulo"></h3>
+        <ul class="lista" id="p-lista"></ul>
+      </div>
+    </section>
+  </div>
+</header>
+
 
 <div class="nav-pegada">
   <nav class="nav wrap" aria-label="Secciones">
