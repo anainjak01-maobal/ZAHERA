@@ -226,7 +226,7 @@ footer.pie { font-size: 13px; color: var(--ink2); padding: 30px 0 40px; margin-t
 .diapo { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .8s var(--ease); }
 .diapo.activa { opacity: 1; }
 .diapo svg, .diapo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.diapo figcaption { position: absolute; top: 20px; left: max(16px, calc(50% - 600px)); max-width: min(460px, calc(100% - 96px)); padding: 14px 18px; background: rgba(31, 29, 28, .9); color: #F6F1EA; font-size: clamp(15px, 1.5vw, 18px); line-height: 1.4; }
+.diapo figcaption { position: absolute; top: 22px; left: max(16px, calc(50% - 600px)); max-width: min(460px, calc(100% - 96px)); padding: 0; background: none; color: #FFFDF8; font-size: clamp(16px, 1.6vw, 20px); line-height: 1.4; font-weight: 600; text-shadow: 0 1px 3px rgba(0, 0, 0, .75), 0 0 18px rgba(0, 0, 0, .45); }
 .etiq { display: inline-block; font-weight: 800; font-size: 13px; padding: 4px 10px; background: #A35A4E; color: #F6F1EA; margin-right: 10px; vertical-align: 2px; }
 .flecha { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(246, 241, 234, .55); background: rgba(31, 29, 28, .45); color: #F6F1EA; font-size: 26px; line-height: 1; cursor: pointer; z-index: 2; }
 .flecha:hover { background: rgba(31, 29, 28, .8); }
