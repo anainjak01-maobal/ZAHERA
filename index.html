@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Manrope:wght@500;600;700;800&display=swap"/>
-<link rel="stylesheet" href="zahera.css?v=1"/>
+<link rel="stylesheet" href="zahera.css?v=2"/>
 </head>
 <body>
 
@@ -51,6 +51,62 @@
     </section>
   </div>
 </header>
+
+<section class="carrusel" aria-roledescription="carrusel" aria-label="Tipos de vivienda que recorrimos">
+  <figure class="diapo activa" aria-hidden="false">
+    <svg viewBox="0 0 1200 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="1200" height="480" fill="#EFE3D6"/>
+      <rect y="380" width="1200" height="100" fill="#CFC5BB"/>
+      <rect x="250" y="110" width="700" height="290" fill="#E4CFC8"/>
+      <rect x="250" y="95" width="700" height="22" fill="#262321"/>
+      <rect x="470" y="200" width="120" height="180" fill="#A35A4E"/>
+      <rect x="740" y="170" width="170" height="130" fill="#F6F1EA" stroke="#8A7F76" stroke-width="4"/>
+      <rect x="290" y="330" width="170" height="50" fill="#8A7A6C"/>
+      <rect x="275" y="310" width="200" height="22" fill="#5E554E"/>
+    </svg>
+    <img src="fotos/pieza.jpg" alt="Foto de una pieza" onerror="this.remove()"/>
+    <figcaption><span class="etiq">Pieza</span>Un solo cuarto. Es lo más barato de la lista.</figcaption>
+  </figure>
+  <figure class="diapo" aria-hidden="true">
+    <svg viewBox="0 0 1200 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="1200" height="480" fill="#EFE3D6"/>
+      <rect y="400" width="1200" height="80" fill="#CFC5BB"/>
+      <rect x="360" y="50" width="480" height="350" fill="#E4CFC8"/>
+      <g fill="#F6F1EA">
+        <rect x="400" y="90" width="80" height="70"/><rect x="520" y="90" width="80" height="70"/><rect x="640" y="90" width="80" height="70"/>
+        <rect x="400" y="200" width="80" height="70"/><rect x="520" y="200" width="80" height="70"/><rect x="640" y="200" width="80" height="70"/>
+      </g>
+      <rect x="400" y="170" width="320" height="12" fill="#A35A4E"/>
+      <rect x="400" y="280" width="320" height="12" fill="#A35A4E"/>
+      <rect x="555" y="320" width="90" height="130" fill="#262321"/>
+    </svg>
+    <img src="fotos/apartamento.jpg" alt="Foto de un apartamento" onerror="this.remove()"/>
+    <figcaption><span class="etiq">Apartamento</span>Varios cuartos en un edificio. Es el grupo del medio.</figcaption>
+  </figure>
+  <figure class="diapo" aria-hidden="true">
+    <svg viewBox="0 0 1200 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="1200" height="480" fill="#EFE3D6"/>
+      <rect y="400" width="1200" height="80" fill="#CFC5BB"/>
+      <rect x="150" y="250" width="14" height="150" fill="#8A7A6C"/>
+      <ellipse cx="157" cy="240" rx="80" ry="26" fill="#8A7A6C"/>
+      <rect x="330" y="200" width="540" height="200" fill="#E4CFC8"/>
+      <rect x="310" y="180" width="580" height="28" fill="#262321"/>
+      <rect x="390" y="250" width="130" height="110" fill="#F6F1EA"/>
+      <rect x="720" y="250" width="130" height="110" fill="#F6F1EA"/>
+      <rect x="590" y="260" width="90" height="140" fill="#A35A4E"/>
+      <rect x="310" y="390" width="580" height="30" fill="#8A7A6C"/>
+    </svg>
+    <img src="fotos/casa.jpg" alt="Foto de una casa" onerror="this.remove()"/>
+    <figcaption><span class="etiq">Casa</span>Casa con patio. Es la que más cambia de precio según los cuartos.</figcaption>
+  </figure>
+  <button class="flecha ant" type="button" aria-label="Diapositiva anterior">‹</button>
+  <button class="flecha sig" type="button" aria-label="Siguiente diapositiva">›</button>
+  <div class="puntos">
+    <button class="punto" type="button" aria-label="Ver pieza" aria-current="true"></button>
+    <button class="punto" type="button" aria-label="Ver apartamento" aria-current="false"></button>
+    <button class="punto" type="button" aria-label="Ver casa" aria-current="false"></button>
+  </div>
+</section>
 
 <div class="nav-pegada">
   <nav class="nav wrap" aria-label="Secciones">
@@ -318,6 +374,31 @@
     opciones($("f-barrio"), barrios, "Todos");
     pintarTodo();
   });
+})();
+</script>
+<script>
+(function () {
+  var car = document.querySelector('.carrusel');
+  if (!car) return;
+  var diapos = [].slice.call(car.querySelectorAll('.diapo'));
+  var puntos = [].slice.call(car.querySelectorAll('.punto'));
+  var i = 0, timer = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function ir(n) {
+    i = (n + diapos.length) % diapos.length;
+    diapos.forEach(function (d, k) { d.classList.toggle('activa', k === i); d.setAttribute('aria-hidden', k === i ? 'false' : 'true'); });
+    puntos.forEach(function (p, k) { p.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  function parar() { if (timer) { clearInterval(timer); timer = null; } }
+  function auto() { parar(); if (!reduce) timer = setInterval(function () { ir(i + 1); }, 6000); }
+  car.querySelector('.ant').addEventListener('click', function () { ir(i - 1); auto(); });
+  car.querySelector('.sig').addEventListener('click', function () { ir(i + 1); auto(); });
+  puntos.forEach(function (p, k) { p.addEventListener('click', function () { ir(k); auto(); }); });
+  car.addEventListener('mouseenter', parar);
+  car.addEventListener('mouseleave', auto);
+  car.addEventListener('focusin', parar);
+  car.addEventListener('focusout', auto);
+  ir(0); auto();
 })();
 </script>
 </body>

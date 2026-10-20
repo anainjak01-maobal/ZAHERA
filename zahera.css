@@ -2,62 +2,62 @@
    y verde mar para los rangos. Cada color es un token; el tema oscuro los redefine. */
 :root {
   --ease: cubic-bezier(.2, .8, .2, 1);
-  --bg: #eef3ef;
+  --bg: #F6F1EA;
   --card: #ffffff;
-  --card-2: #e3ebe6;
-  --fg: #0e2a2f;
-  --ink2: #4d6266;
-  --ink-soft: #7c9196;
-  --rule: #d3dfda;
-  --brand: #0e2a2f;
-  --accent: #ff6a4d;
-  --accent-ink: #b8402a;
-  --sea: #1f8a7a;
-  --sand: #f7e9d2;
-  --warn: #7a5410;
-  --warn-soft: #f7e9d2;
-  --hero-bg: #0e2a2f;
-  --hero-fg: #eef3ef;
+  --card-2: #EDE5DA;
+  --fg: #262321;
+  --ink2: #5E554E;
+  --ink-soft: #8A7F76;
+  --rule: #E4DBD0;
+  --brand: #262321;
+  --accent: #A35A4E;
+  --accent-ink: #8C4337;
+  --sea: #8A7A6C;
+  --sand: #EFE3D6;
+  --warn: #6E5A3E;
+  --warn-soft: #EFE3D6;
+  --hero-bg: #1F1D1C;
+  --hero-fg: #F6F1EA;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0a1a1e;
-    --card: #10252a;
-    --card-2: #173238;
-    --fg: #e6f0ec;
-    --ink2: #a7bcb8;
-    --ink-soft: #7c9196;
-    --rule: #22393e;
-    --brand: #e6f0ec;
-    --accent: #ff8a70;
-    --accent-ink: #ffb09c;
-    --sea: #52c7b4;
-    --sand: #2b2a1e;
-    --warn: #f0cc85;
-    --warn-soft: #2b2a1e;
-    --hero-bg: #061316;
-    --hero-fg: #e6f0ec;
+    --bg: #171513;
+    --card: #221F1C;
+    --card-2: #2C2825;
+    --fg: #F6F1EA;
+    --ink2: #CFC5BB;
+    --ink-soft: #8A7F76;
+    --rule: #3A3430;
+    --brand: #F6F1EA;
+    --accent: #E0A090;
+    --accent-ink: #E4CFC8;
+    --sea: #CFC5BB;
+    --sand: #2E2A24;
+    --warn: #E4CFC8;
+    --warn-soft: #2E2A24;
+    --hero-bg: #1F1D1C;
+    --hero-fg: #F6F1EA;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0a1a1e;
-  --card: #10252a;
-  --card-2: #173238;
-  --fg: #e6f0ec;
-  --ink2: #a7bcb8;
-  --ink-soft: #7c9196;
-  --rule: #22393e;
-  --brand: #e6f0ec;
-  --accent: #ff8a70;
-  --accent-ink: #ffb09c;
-  --sea: #52c7b4;
-  --sand: #2b2a1e;
-  --warn: #f0cc85;
-  --warn-soft: #2b2a1e;
-  --hero-bg: #061316;
-  --hero-fg: #e6f0ec;
+  --bg: #171513;
+  --card: #221F1C;
+  --card-2: #2C2825;
+  --fg: #F6F1EA;
+  --ink2: #CFC5BB;
+  --ink-soft: #8A7F76;
+  --rule: #3A3430;
+  --brand: #F6F1EA;
+  --accent: #E0A090;
+  --accent-ink: #E4CFC8;
+  --sea: #CFC5BB;
+  --sand: #2E2A24;
+  --warn: #E4CFC8;
+  --warn-soft: #2E2A24;
+  --hero-bg: #1F1D1C;
+  --hero-fg: #F6F1EA;
   color-scheme: dark;
 }
 
@@ -90,15 +90,15 @@ a { color: var(--fg); }
 .hero { background: var(--hero-bg); color: var(--hero-fg); margin-inline: -16px; padding: 56px 16px 64px; }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 44px; align-items: start; }
 @media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; gap: 32px; } }
-.hero .kicker { color: #ffb09c; }
+.hero .kicker { color: #E4CFC8; }
 .hero h1 { font-size: clamp(40px, 6.4vw, 72px); font-weight: 800; color: var(--hero-fg); }
-.hero h1 em { font-style: normal; color: #ff8a70; }
-.hero .lead { font-size: 18px; color: #b9cdc8; margin-top: 20px; max-width: 46ch; }
-.hero .estado { display: inline-block; margin-top: 18px; font-size: 13px; font-weight: 700; padding: 6px 12px; border: 1px solid #3b5a5f; color: #b9cdc8; }
+.hero h1 em { font-style: normal; color: #E0A090; }
+.hero .lead { font-size: 18px; color: #CFC5BB; margin-top: 20px; max-width: 46ch; }
+.hero .estado { display: inline-block; margin-top: 18px; font-size: 13px; font-weight: 700; padding: 6px 12px; border: 1px solid #4A443F; color: #CFC5BB; }
 .hero .acciones { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 0; }
-.hero .btn { border-color: #3b5a5f; }
-.hero .btn.primario { background: var(--accent); border-color: var(--accent); color: #0e2a2f; }
-.hero .btn.primario:hover { background: #ff8569; }
+.hero .btn { border-color: #4A443F; }
+.hero .btn.primario { background: var(--accent); border-color: var(--accent); color: #F6F1EA; }
+.hero .btn.primario:hover { background: #8C4337; border-color: #8C4337; }
 .hero .btn:not(.primario) { background: transparent; color: var(--hero-fg); }
 
 /* Calculadora: tarjeta blanca que sube sobre la banda */
@@ -220,3 +220,19 @@ footer.pie { font-size: 13px; color: var(--ink2); padding: 30px 0 40px; margin-t
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Carrusel de tipos de vivienda (ilustraciones; si hay fotos en fotos/, se muestran encima) */
+.carrusel { position: relative; margin-inline: -16px; background: var(--hero-bg); overflow: hidden; height: clamp(260px, 42vw, 480px); }
+.diapo { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .8s var(--ease); }
+.diapo.activa { opacity: 1; }
+.diapo svg, .diapo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.diapo figcaption { position: absolute; top: 20px; left: max(16px, calc(50% - 600px)); max-width: min(460px, calc(100% - 96px)); padding: 14px 18px; background: rgba(31, 29, 28, .9); color: #F6F1EA; font-size: clamp(15px, 1.5vw, 18px); line-height: 1.4; }
+.etiq { display: inline-block; font-weight: 800; font-size: 13px; padding: 4px 10px; background: #A35A4E; color: #F6F1EA; margin-right: 10px; vertical-align: 2px; }
+.flecha { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(246, 241, 234, .55); background: rgba(31, 29, 28, .45); color: #F6F1EA; font-size: 26px; line-height: 1; cursor: pointer; z-index: 2; }
+.flecha:hover { background: rgba(31, 29, 28, .8); }
+.flecha.ant { left: 14px; } .flecha.sig { right: 14px; }
+.puntos { position: absolute; top: 16px; right: 18px; display: flex; gap: 8px; z-index: 2; }
+.punto { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #F6F1EA; background: transparent; padding: 0; cursor: pointer; }
+.punto[aria-current="true"] { background: #F6F1EA; }
+@media (max-width: 600px) { .flecha { width: 38px; height: 38px; } .flecha.ant { left: 8px; } .flecha.sig { right: 8px; } }
+@media (prefers-reduced-motion: reduce) { .diapo { transition: none; } }
