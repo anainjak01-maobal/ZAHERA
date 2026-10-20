@@ -4,7 +4,7 @@
    Después de cada cambio: Implementar > Administrar implementaciones > Versión nueva.
    No guardes teléfonos ni datos de contacto de quienes publican avisos.
    ============================================================ */
-var CLAVE = "Zahera12345";
+var CLAVE = "cambia-esta-clave";
 var HOJA = "Avisos";
 var ZONA = "America/Bogota";
 var TIPOS = ["Pieza", "Apartamento", "Casa"];
